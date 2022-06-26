@@ -59,6 +59,12 @@ var leeAccount = Account{
 	CurrentBalance: 2500,
 }
 
+func encodeAndReturn(w http.ResponseWriter, r *http.Request, response interface{}) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(response)
+}
+
 func createAccount(w http.ResponseWriter, r *http.Request) {
 	var requestBody Account
 
@@ -109,9 +115,7 @@ func createAccount(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(response)
+	encodeAndReturn(w, r, response)
 }
 
 func validateCaller(account int32, password int32) (*Account, string) {
@@ -149,9 +153,7 @@ func accountGet(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(response)
+	encodeAndReturn(w, r, response)
 }
 
 func changeAmount(account *Account, value float32, operation string) string {
@@ -194,9 +196,7 @@ func depositPost(w http.ResponseWriter, r *http.Request) {
 		CurrentBalance: caller.CurrentBalance,
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(response)
+	encodeAndReturn(w, r, response)
 }
 
 func withdrawPost(w http.ResponseWriter, r *http.Request) {
@@ -222,9 +222,7 @@ func withdrawPost(w http.ResponseWriter, r *http.Request) {
 		CurrentBalance: caller.CurrentBalance,
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(response)
+	encodeAndReturn(w, r, response)
 }
 
 func validateDestiny(account int32) (*Account, string) {
@@ -270,15 +268,11 @@ func transferPost(w http.ResponseWriter, r *http.Request) {
 		CurrentBalance: caller.CurrentBalance,
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(response)
+	encodeAndReturn(w, r, response)
 }
 
 func listAllGet(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(accounts)
+	encodeAndReturn(w, r, accounts)
 }
 
 func main() {
